@@ -31,12 +31,23 @@ products.forEach(product => {
 
     button.addEventListener("click", () => {
         cart.push(product);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
         renderCart();
 
     });
 
     productsContainer.appendChild(productCard);
 });
+
+
+const savedCart = localStorage.getItem("cart");
+if (savedCart) {
+    cart = JSON.parse(savedCart);
+}
+
+renderCart();
 
 
 
@@ -55,9 +66,11 @@ function renderCart() {
         button.addEventListener("click", () => {
             const productToRemove = product;
             cart = cart.filter(product => product !== productToRemove);
+            localStorage.setItem("cart", JSON.stringify(cart));
             renderCart();
         });
     });
+
 
     const total = cart.reduce((total, product) => {
         return total + product.price;
